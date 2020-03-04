@@ -1,0 +1,67 @@
+# include <Bounce.h>
+const int trigPinR = 21;
+const int echoPinR = 40;
+const int trigPinL = 18;
+const int echoPinL = 41;
+const int buzzPinR = 17;
+const int buzzPinL = 13;
+float timetoR, cmR, timetoL, cmL;
+
+
+void setup() {
+Serial.begin(9600);
+
+pinMode(trigPinR, OUTPUT);
+pinMode(echoPinR, INPUT);
+pinMode(buzzPinR,OUTPUT);
+
+pinMode(trigPinL,OUTPUT);
+pinMode(echoPinL,INPUT);
+pinMode(buzzPinL,OUTPUT);
+
+}
+
+void loop() {
+digitalWrite(trigPinR,LOW);
+digitalWrite(trigPinL,LOW);
+ 
+  delayMicroseconds(10);
+  digitalWrite(trigPinR,HIGH);
+  delayMicroseconds(5);
+  digitalWrite(trigPinR,LOW);
+  timetoR = pulseIn(echoPinR,HIGH);
+  cmR = (timetoR/2)*0.0343;
+  Serial.print(cmR);
+  Serial.print(" cm R  ");
+  if(cmR<5)
+  {
+    Serial.print("pressed RIGHT  ");
+    digitalWrite(buzzPinR,HIGH);
+    delay(1);
+    digitalWrite(buzzPinR,LOW);
+  //  Keyboard.press(KEY_LEFT);
+  //  Keyboard.press(KEY_LEFT);
+    }
+
+  delayMicroseconds(10);
+  digitalWrite(trigPinL,HIGH);
+  delayMicroseconds(5);
+  digitalWrite(trigPinL,LOW);
+  timetoL = pulseIn(echoPinL,HIGH); 
+  cmL = (timetoL/2)*0.0343;
+  Serial.print(cmL);
+  Serial.print("cm L ");
+  Serial.println();
+  if(cmL<5)
+  {
+    Serial.print("pressed LEFT  ");
+    digitalWrite(buzzPinL,HIGH);
+    delay(1);
+    digitalWrite(buzzPinL,LOW);
+  //  Keyboard.press(KEY_LEFT);
+  //  Keyboard.press(KEY_LEFT);
+    }
+  
+delay(30);
+
+}
